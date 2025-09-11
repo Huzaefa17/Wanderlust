@@ -52,19 +52,10 @@ app.get('/listings/:id', wrapAsync(async (req, res) => {
 
 // Create Route
 app.post("/listings",wrapAsync(async (req,res,next) => {
-    if (!req.body.title || !req.body.description || !req.body.price || !req.body.location || !req.body.country) {
+    if (!req.body.listing) {
         return next(new ExpressError(400, 'Send valid data for listing'));
     } // 400 = bad request
-    const newListing = new Listing({
-    title: req.body.title,
-    description: req.body.description,
-    image: {
-        url: req.body.imageUrl
-    },
-    price: req.body.price,
-    location: req.body.location,
-    country: req.body.country
-    });
+    const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect('/listings');
 }));
@@ -79,16 +70,7 @@ app.get("/listings/:id/edit", wrapAsync(async (req,res) =>{
 // Update Route
 app.put("/listings/:id",wrapAsync(async (req,res) => {
     let {id}= req.params;
-    const updatedListing = await Listing.findByIdAndUpdate(id, {
-        title: req.body.title,
-        description: req.body.description,
-        image: {
-            url: req.body.imageUrl
-        },
-        price: req.body.price,
-        location: req.body.location,
-        country: req.body.country
-    });
+    const updatedListing = await Listing.findByIdAndUpdate(id, req.body.listing, {runValidators: true, new: true});
     res.redirect(`/listings/${id}`);
 }));
 
@@ -98,11 +80,11 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 
-app.use((req, res, next) => {
+app.use((req, res, next) => { // for any path that is not matched
     next(new ExpressError(404,'Page Not Found'));
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { // error handling middleware
     let { statusCode = 500, message = "Something went wrong!" } = err;
     res.status(statusCode).render('error.ejs', { message });
 });
