@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const ejsMate= require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync');
 const ExpressError = require('./utils/ExpressError');
+const listingSchema = require('./schema.js');
 
 app.engine('ejs', ejsMate);
 
@@ -52,9 +53,11 @@ app.get('/listings/:id', wrapAsync(async (req, res) => {
 
 // Create Route
 app.post("/listings",wrapAsync(async (req,res,next) => {
-    if (!req.body.listing) {
-        return next(new ExpressError(400, 'Send valid data for listing'));
-    } // 400 = bad request
+    let result = listingSchema.validate(req.body);
+    console.log(result);
+    if(result.error){
+        throw new ExpressError(400, result.error);
+    }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect('/listings');
