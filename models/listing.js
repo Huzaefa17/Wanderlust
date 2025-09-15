@@ -9,7 +9,8 @@ const listingSchema = new mongoose.Schema({
     },
     price: { type: Number, required: true },
     location: { type: String, required: true },
-    country: { type: String, required: true }
+    country: { type: String, required: true },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }] // Array of references to Review model
 });
 
 const Listing = mongoose.model('Listing', listingSchema);
