@@ -7,7 +7,7 @@ const methodOverride = require('method-override');
 const ejsMate= require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync');
 const ExpressError = require('./utils/ExpressError');
-const listingSchema = require('./schema.js');
+const {listingSchema,reviewSchema} = require('./schema.js');
 const Review = require('./models/review');
 
 app.engine('ejs', ejsMate);
@@ -37,6 +37,15 @@ app.get('/', (req, res) => {
 
 const validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
+    if (error) {
+        const Errmsg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(400, Errmsg);
+    }
+    next();
+};
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const Errmsg = error.details.map(el => el.message).join(',');
         throw new ExpressError(400, Errmsg);
@@ -93,8 +102,10 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 
-// Review Route
-app.post('/listings/:id/reviews', async (req, res) => {
+// Review Post Route
+app.post('/listings/:id/reviews', 
+    validateReview,
+    wrapAsync( async (req, res) => {
     const { id } = req.params;
     const { rating, comment } = req.body.review;
 
@@ -107,7 +118,7 @@ app.post('/listings/:id/reviews', async (req, res) => {
     await newReview.save();
 
     res.redirect(`/listings/${id}`);
-});
+}));
 
 app.use((req, res, next) => { // for any path that is not matched
     next(new ExpressError(404,'Page Not Found'));
