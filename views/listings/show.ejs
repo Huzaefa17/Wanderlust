@@ -3,7 +3,7 @@
     <div class="col-8 offset-3">
         <h3>Listing Details</h3>
     </div>
-    <div class="card show-card col-6 offset-3 mt-3">
+    <div class="card listing-card show-card col-6 offset-3 mt-3">
         <img src="<%= listing.imageUrl %>" class="card-img-top show-img" alt="listing_image">
         <div class="card-body">
             <p class="card-text">
@@ -34,4 +34,23 @@
         </div>
         <button type="submit" class="btn btn-outline-dark mb-3 mt-2 offset-5">Submit Review</button>
     </form>
+    
+    <hr>
+
+    <h3>Reviews</h3>
+    <% if(listing.reviews.length === 0) { %>
+        <p>No reviews yet. Be the first to review!</p>
+    <% } else { %>
+        <div class="row">
+                <% listing.reviews.forEach(review => { %>
+                    <div class="card col-md-5 mb-3 ms-3 p-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text"><%= review.comment %></p>
+                            <div class="card-text"><%= review.rating %> stars</div>  
+                        </div>
+                    </div>
+                <% }) %>
+        </div>
+    <% } %>
 </div>
