@@ -5,6 +5,18 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate= require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
+const session = require('express-session');
+
+const sessionOptions = {
+    secret: 'mysupersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+};
+
+app.use(session(sessionOptions));
 
 const listingRoutes = require('./routes/listing');
 const reviewRoutes = require('./routes/review');
