@@ -51,6 +51,10 @@ router.post("/",
 router.get("/:id/edit", wrapAsync(async (req,res) =>{
     let {id} =req.params;
     const listing = await Listing.findById(id);
+    if(!listing){
+        req.flash('error', 'Cannot find the listing!');
+        return res.redirect('/listings');
+    }
     res.render("listings/edit.ejs", {listing});
 }));
 
@@ -60,10 +64,6 @@ router.put("/:id",
     wrapAsync(async (req,res) => {
     let {id}= req.params;
     await Listing.findByIdAndUpdate(id, req.body.listing, {runValidators: true, new: true});
-    if(!listing){
-        req.flash('error', 'Cannot find the listing!');
-        return res.redirect('/listings');
-    }
     req.flash('success', 'Successfully updated the listing!');
     res.redirect(`/listings/${id}`);
 }));
