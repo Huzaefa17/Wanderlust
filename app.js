@@ -6,6 +6,9 @@ const methodOverride = require('method-override');
 const ejsMate= require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
+const flash= require('connect-flash');
+
+app.use(flash());
 
 const sessionOptions = {
     secret: 'mysupersecret',
@@ -17,6 +20,11 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 const listingRoutes = require('./routes/listing');
 const reviewRoutes = require('./routes/review');
