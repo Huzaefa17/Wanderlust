@@ -8,7 +8,7 @@ router.get('/signup', (req, res) => {
     res.render('users/signup.ejs');
 });
 
-router.post('/signup', wrapAsync(async (req, res) => {
+router.post('/signup', async (req, res) => {
     try{
         const { email, username, password } = req.body;
         const user = new User({ email, username });
@@ -23,7 +23,7 @@ router.post('/signup', wrapAsync(async (req, res) => {
         res.redirect('/signup');
     }
     
-}));
+});
 
 router.get('/login', (req, res) => {
     res.render('users/login.ejs');
