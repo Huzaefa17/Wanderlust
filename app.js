@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 
 const listingRoutes = require('./routes/listing');
 const reviewRoutes = require('./routes/review');
+const userRoutes = require('./routes/user');
 
 app.engine('ejs', ejsMate);
 
@@ -67,6 +68,7 @@ app.get('/', (req, res) => {
 
 app.use('/listings', listingRoutes); // Use the listing routes for any path starting with /listings
 app.use('/listings/:id/reviews', reviewRoutes); // Use the review routes for any path starting with /listings/:id/reviews
+app.use('/', userRoutes); // Use the user routes for any path starting with /signup
 
 app.use((req, res, next) => { // for any path that is not matched
     next(new ExpressError(404,'Page Not Found'));
