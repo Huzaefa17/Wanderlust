@@ -3,12 +3,13 @@ const router = express.Router();
 const wrapAsync = require('../utils/wrapAsync');
 const passport = require('passport');
 const User = require('../models/user');
+const { saveRedirectUrl } = require('../middleware');
 
 router.get('/signup', (req, res) => {
     res.render('users/signup.ejs');
 });
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', async (req, res , next) => {
     try{
         const { email, username, password } = req.body;
         const user = new User({ email, username });
@@ -29,9 +30,11 @@ router.get('/login', (req, res) => {
     res.render('users/login.ejs');
 });
 
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async(req, res) => {
+router.post('/login', saveRedirectUrl, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    console.log('returnTo:', req.session.returnTo);
+    console.log('Session ID in login:', req.sessionID);
     req.flash('success', 'Welcome back!');
-    const redirectUrl = req.session.returnTo || '/listings';
+    const redirectUrl = res.locals.redirectUrl || '/listings'; // req.session.returnTo is defined in isLoggedIn middleware
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 });

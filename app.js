@@ -11,19 +11,26 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-app.use(flash());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
+
 
 const sessionOptions = {
     secret: 'mysupersecret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        httpOnly: true,
+        sameSite: 'lax',
     }
 };
 
 app.use(session(sessionOptions));
-
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -43,9 +50,10 @@ const userRoutes = require('./routes/user');
 
 app.engine('ejs', ejsMate);
 
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(methodOverride('_method'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 
 async function main() {
     await mongoose.connect('mongodb://localhost:27017/wanderlust');
@@ -57,10 +65,6 @@ main().then(() => {
     console.error("Error connecting to MongoDB:", err);
 });
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
     res.send('Welcome to the Wanderlust!');
