@@ -11,7 +11,8 @@ const listingSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     location: { type: String, required: true },
     country: { type: String, required: true },
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }] // Array of references to Review model
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }], // Array of references to Review model
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // Reference to User model 
 });
 
 listingSchema.post('findOneAndDelete', async function(listing) {

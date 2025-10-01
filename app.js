@@ -41,6 +41,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user; // req.user is added by passport and contains the authenticated user
     next();
 });
 

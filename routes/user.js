@@ -39,4 +39,12 @@ router.post('/login', saveRedirectUrl, passport.authenticate('local', { failureF
     res.redirect(redirectUrl);
 });
 
+router.get('/logout', (req, res, next) => {
+    req.logout(function(err) { // passport method to terminate a login session
+        if (err) { return next(err); }
+        req.flash('success', 'Goodbye!');
+        res.redirect('/login');
+    });
+});
+
 module.exports = router;
