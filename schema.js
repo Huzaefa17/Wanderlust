@@ -7,7 +7,10 @@ module.exports.listingSchema= joi.object({
         price: joi.number().min(0).required(),
         location: joi.string().required(),
         country: joi.string().required(),
-        imageUrl: joi.string().allow("", null)
+        category: joi.string()
+            .valid('Trending', 'Rooms', 'Iconic Cities', 'Mountains', 'Castles', 'Amazing Pools', 'Camping', 'Farms', 'Arctic', 'Beachfront', 'Lakeside', 'Forests')
+            .required()
+        // image is handled by multer as req.file, image is not in req.body
     }).required()
 });
 module.exports.reviewSchema= joi.object({

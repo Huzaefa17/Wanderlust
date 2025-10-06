@@ -3,7 +3,7 @@
     <div class="col-8 offset-2">
         <br><br>
     <h1>Create a New Listing</h1>
-    <form method="POST" action="/listings" class="needs-validation" novalidate>
+    <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Title:</label>
             <input type="text" id="title" placeholder="Enter title" name="listing[title]" class="form-control" required>
@@ -13,8 +13,8 @@
             <textarea id="description" placeholder="Enter description" name="listing[description]" class="form-control" required></textarea>
         </div>
         <div class="mb-3">
-            <label for="imageUrl" class="form-label">Image URL:</label>
-            <input type="text" id="imageUrl" placeholder="Enter image URL" name="listing[imageUrl]" class="form-control" >
+            <label for="image" class="form-label">Upload Image</label>
+            <input type="file" id="image" name="listing[image]" class="form-control" required>
         </div>
         <div class="row">
             <div class="mb-3 col-md-4">
@@ -29,6 +29,23 @@
         <div class="mb-3">
             <label for="location" class="form-label">Location:</label>
             <input type="text" id="location" placeholder="Enter location" name="listing[location]" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category:</label>
+            <select id="category" name="listing[category]" class="form-select" required>
+                <option value="">Select a category</option>
+                <option value="Rooms">Rooms</option>
+                <option value="Iconic Cities">Iconic Cities</option>
+                <option value="Mountains">Mountains</option>
+                <option value="Castles">Castles</option>
+                <option value="Amazing Pools">Amazing Pools</option>
+                <option value="Camping">Camping</option>
+                <option value="Farms">Farms</option>
+                <option value="Arctic">Arctic</option>
+                <option value="Beachfront">Beachfront</option>
+                <option value="Lakeside">Lakeside</option>
+                <option value="Forests">Forests</option>
+            </select>
         </div>
         <button class="btn btn-dark create-btn mb-3">Create Listing</button>
     </form>
