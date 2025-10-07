@@ -52,12 +52,11 @@ text-decoration:underline;
 .f-info-links, .f-info-socials, .f-info-brand{
     width: 100%;
     margin-bottom: 0.5rem;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.f-info-brand span.heart {
+.f-info-brand i {
     color: #fe424d;
 }
 
