@@ -85,9 +85,9 @@ main().then(() => {
 });
 
 
-// app.get('/', (req, res) => {
-//     res.send('Welcome to the Wanderlust!');
-// });
+app.get('/', (req, res) => {
+    res.redirect('/listings'); // Redirect to /listings
+});
 
 app.use('/listings', listingRoutes); // Use the listing routes for any path starting with /listings
 app.use('/listings/:id/reviews', reviewRoutes); // Use the review routes for any path starting with /listings/:id/reviews
