@@ -331,3 +331,8 @@ text-decoration:underline;
     color: white !important;
     border: none !important;
 }
+
+#switchCheckDefault:checked {
+    background-color: #fe424d;
+    border-color: #fe424d;
+}
