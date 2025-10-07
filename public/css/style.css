@@ -44,15 +44,23 @@ text-decoration:underline;
     background-color: #ebebeb;
     flex-wrap:wrap;
     justify-content: center;
-    align-items: space-evenly;
+    align-items: center;
     text-align: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
 }
 .f-info-links, .f-info-socials, .f-info-brand{
     width: 100%;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+.f-info-brand span.heart {
+    color: #fe424d;
+}
+
 .f-info-socials i{
     font-size: 1.2rem;
     margin-right:1rem;
