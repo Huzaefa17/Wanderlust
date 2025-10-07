@@ -243,6 +243,27 @@ text-decoration:underline;
 /* navbar */
 
 /* Mobile navbar */
+@media (max-width: 500px){
+    #filters {
+        flex-direction: column !important;
+        align-items: flex-start; /* align children to the start */
+        gap: 0.7rem;
+    }
+    .tax-toggle {
+        width: auto; /* only as wide as needed for contents */
+        min-width: 0; /* allow it to shrink */
+        margin: 0;
+        align-self: flex-start; /* prevent it from stretching */
+    }
+    .filter-scroll-container {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;   /* Important: prevent wrapping */
+        width: 100%;         /*uses full width for scrolling */
+    }
+}
+
 @media (max-width: 767px) {
     .navbar-collapse {
         background-color: white;
